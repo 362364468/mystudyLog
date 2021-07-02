@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.st.dynamic.mapper.SelectBookDatamp">
+    <select id="selectBookDataByCondition" resultType="java.lang.Long">
+        select count(*)
+        from bs_book e
+        where 1=1
+        <if test="po.isbn">
+            and e.isbn=#{po.isbn}
+        </if>
+        <if test="po.name">
+            and e.name=#{po.name}
+        </if>
+        <if test="po.author">
+            and e.isbn=#{po.author}
+        </if>
+        <if test="po.publisher">
+            and e.isbn=#{po.publisher}
+        </if>
+    </select>
+    <select id="queryBookDataByCondition" resultType="com.st.dynamic.model.po.BookDataPO">
+        select f.* from (
+        select e.id,
+        e.isbn,
+        convert(varchar(20),e.c_time,120) publisher_date,
+        e.name,
+        e.author,
+        e.publisher,
+        e.old_price,
+        e.new_price,
+        e.author_loc,
+        e.devicecode,
+        e.suit,
+        e.category,
+        e.info,
+        e.img_url
+        row_number() over(order by e.publisher_date desc,e.id) rn
+        from bs_book e
+        where 1=1
+        <if test="po.isbn">
+            and e.isbn=#{po.isbn}
+        </if>
+        <if test="po.name">
+            and e.name=#{po.name}
+        </if>
+        <if test="po.author">
+            and e.isbn=#{po.author}
+        </if>
+        <if test="po.publisher">
+            and e.isbn=#{po.publisher}
+        </if>
+        )f
+        <if test="po.startIndex != null and po.endIndex != null">
+            where f.rn between #{po.startIndex} and #{po.endIndex}
+        </if>
+        order by f.rn
+    </select>
+</mapper>

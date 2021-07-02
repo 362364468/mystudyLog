@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.st.dynamic.mapper.InsertBookDatamp">
+    <insert id="insertBookData">
+        insert into bs_book
+        (id,isbn,name,author,publisher,publish_date,old_price,
+         new_price,author_loc,suit,category,info,img_url)
+         <foreach collection="list" open="(" item="item" separator="union all" close=")">
+            select #{item.id},#{item.isbn},#{item.name},#{item.author},#{item.publisher},#{item.publish_date},#{item.old_price},
+              #{item.new_price},#{item.author_loc},#{item.suit},#{item.category},#{item.info},#{item.img_url}
+         </foreach>
+    </insert>
+</mapper>

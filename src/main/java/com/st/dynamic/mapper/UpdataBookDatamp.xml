@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.st.dynamic.mapper.UpdataBookDatamp">
+    <update id="updataBookData">
+        <foreach collection="list" item="item" open="begin" separator=";" close=";end;">
+            update bs_book set isbn=#{item.isbn}, name=#{item.name},author=#{item.author},publisher=#{item.publisher},
+            publish_date=#{item.publish_date},old_price=#{item.old_price},new_price=#{item.new_price},author_loc=#{item.author_loc},
+            suit=#{item.suit},category=#{item.category},info=#{item.info},img_url=#{item.img_url},where id=#{item.id}
+        </foreach>
+    </update>
+</mapper>
